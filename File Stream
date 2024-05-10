@@ -1,0 +1,78 @@
+import java.io.*;
+import java.util.ArrayList;
+
+public class FileStream  {
+
+    public static void writeToFile(File file, String text) {
+
+        try {
+            FileWriter fileWriter=new FileWriter(file, true);
+            BufferedWriter writer=new BufferedWriter(fileWriter);
+
+            fileWriter.write(text);
+            writer.newLine();
+            writer.close();
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+    public static String readFromFile(File file) {
+        String data="";
+        try {
+
+            FileReader fileReader=new FileReader(file);
+            BufferedReader reader=new BufferedReader(fileReader);
+            String text="";
+            while((text=reader.readLine())!=null){
+                data+=text+"\n";
+            }
+
+        }
+        catch (FileNotFoundException e){
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return data;
+    }
+
+
+    public static void writObject(File file, ArrayList<Student> list){
+        try{
+            FileOutputStream fos=new FileOutputStream(file);
+            ObjectOutputStream oos=new ObjectOutputStream(fos);
+            oos.writeObject(list);
+            oos.close();
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+
+    public static ArrayList<Student> readObject(File file){
+        try{
+            FileInputStream fis=new FileInputStream(file);
+            ObjectInputStream ois=new ObjectInputStream(fis);
+            ArrayList<Student> list=(ArrayList<Student>)ois.readObject();
+            ois.close();
+            return list;
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}
